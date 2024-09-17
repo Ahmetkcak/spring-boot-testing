@@ -25,7 +25,7 @@ public class User extends BaseEntity<Integer> implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -33,6 +33,9 @@ public class User extends BaseEntity<Integer> implements UserDetails {
 
     @Column(name = "birth_date")
     private LocalDate birthDate;
+
+    @Column(name = "city")
+    private String city;
 
     //Normalde roller için ayrı bir tablo oluşturulur ve bu tablo ile ilişkilendirilir. Sadece 2 tip kullanıcı var.
 //    @Column(name = "is_admin")

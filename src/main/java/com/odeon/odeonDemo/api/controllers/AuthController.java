@@ -24,10 +24,10 @@ public class AuthController {
     private int refreshTokenExpiryDays;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public LoggedInResponse login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
         LoggedInResponse loggedInResponse = authService.login(loginRequest, getIpAddress(request));
         setCookie(refreshTokenKey, loggedInResponse.getRefreshToken(), refreshTokenExpiryDays * 24 * 60 * 60, response);
-        return loggedInResponse.getAccessToken();
+        return loggedInResponse;
     }
 
     @PostMapping("/refresh")
@@ -36,11 +36,6 @@ public class AuthController {
         RefreshedTokenResponse refreshedTokenResponse = authService.refreshToken(refreshToken, getIpAddress(request));
         setCookie(refreshTokenKey, refreshedTokenResponse.getRefreshToken(), refreshTokenExpiryDays * 24 * 60 * 60, response);
         return refreshedTokenResponse.getAccessToken();
-    }
-
-    @GetMapping
-    public String hello() {
-        return "Hello World!";
     }
 
     // BaseController tanımlanıp oradan alınabilir

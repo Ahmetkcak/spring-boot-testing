@@ -8,6 +8,7 @@ import com.odeon.odeonDemo.business.dtos.responses.LoggedInResponse;
 import com.odeon.odeonDemo.business.dtos.responses.RefreshedTokenResponse;
 import com.odeon.odeonDemo.business.messages.AuthMessages;
 import com.odeon.odeonDemo.core.services.JwtService;
+import com.odeon.odeonDemo.core.utilities.exceptions.types.BusinessException;
 import com.odeon.odeonDemo.entities.RefreshToken;
 import com.odeon.odeonDemo.entities.User;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +33,13 @@ public class AuthManager implements AuthService {
     public LoggedInResponse login(LoginRequest loginRequest, String ipAddress) throws Exception {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         if (!authentication.isAuthenticated()) {
-            throw new Exception(AuthMessages.LOGIN_FAILED);
+            throw new BusinessException(AuthMessages.LOGIN_FAILED);
         }
         User user = userService.findByUserName(loginRequest.getEmail());
         refreshTokenService.revokeOldTokens(user, ipAddress);
         RefreshToken refreshToken = refreshTokenService.create(user);
         String accessToken = generateJwt(user);
-        return new LoggedInResponse(accessToken, refreshToken.getToken());
+        return new LoggedInResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), accessToken, refreshToken.getToken());
     }
 
     @Override
