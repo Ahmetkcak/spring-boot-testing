@@ -1,4 +1,4 @@
-package com.odeon.odeonDemo.core.utilities;
+package com.odeon.odeonDemo.core.utilities.mapping;
 
 import org.modelmapper.ModelMapper;
 

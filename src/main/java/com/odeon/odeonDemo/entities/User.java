@@ -1,20 +1,14 @@
 package com.odeon.odeonDemo.entities;
 
 import com.odeon.odeonDemo.core.entities.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -41,21 +35,19 @@ public class User extends BaseEntity<Integer> implements UserDetails {
     private LocalDate birthDate;
 
     //Normalde roller için ayrı bir tablo oluşturulur ve bu tablo ile ilişkilendirilir. Sadece 2 tip kullanıcı var.
-    @Column(name = "is_admin")
-    private boolean isAdmin;
+//    @Column(name = "is_admin")
+//    private boolean isAdmin;
 
     @OneToMany(mappedBy = "user")
     private Set<RefreshToken> refreshTokens;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public String getPassword() {
-        return "";
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> authorities;
 
     @Override
     public String getUsername() {

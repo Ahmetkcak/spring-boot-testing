@@ -1,4 +1,4 @@
-package com.odeon.odeonDemo.core.utilities;
+package com.odeon.odeonDemo.core.utilities.mapping;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
