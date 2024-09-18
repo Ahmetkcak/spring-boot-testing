@@ -22,6 +22,9 @@ public class SecurityConfigServiceImpl implements SecurityService {
                 .requestMatchers(HttpMethod.POST, "/api/flights/create").hasAnyAuthority(Roles.ADMIN)
                 .requestMatchers(HttpMethod.POST, "/api/flights/delete/").hasAnyAuthority(Roles.ADMIN)
                 .requestMatchers(HttpMethod.GET, "/api/flights/getAll").hasAnyAuthority(Roles.ADMIN, Roles.USER)
+
+                .requestMatchers(HttpMethod.POST, "/api/reservations/create").hasAnyAuthority(Roles.ADMIN, Roles.USER)
+                .requestMatchers(HttpMethod.DELETE, "/api/reservations/delete/").hasAnyAuthority(Roles.ADMIN, Roles.USER)
                 .anyRequest().authenticated());
         return http;
     }
