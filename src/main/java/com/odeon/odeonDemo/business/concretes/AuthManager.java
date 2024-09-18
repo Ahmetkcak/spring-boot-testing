@@ -39,7 +39,7 @@ public class AuthManager implements AuthService {
         refreshTokenService.revokeOldTokens(user, ipAddress);
         RefreshToken refreshToken = refreshTokenService.create(user);
         String accessToken = generateJwt(user);
-        return new LoggedInResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), accessToken, refreshToken.getToken());
+        return new LoggedInResponse(accessToken, refreshToken.getToken());
     }
 
     @Override

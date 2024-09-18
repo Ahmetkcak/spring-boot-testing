@@ -15,10 +15,4 @@ public class UsersController {
     public void register(@RequestBody RegisterRequest registerRequest) {
         userService.register(registerRequest);
     }
-
-    // Test endpoint
-    @GetMapping
-    public String hello() {
-        return "Hello World!";
-    }
 }
