@@ -2,8 +2,10 @@ package com.odeon.odeonDemo.api.controllers;
 
 import com.odeon.odeonDemo.business.abstracts.AuthService;
 import com.odeon.odeonDemo.business.dtos.requests.LoginRequest;
+import com.odeon.odeonDemo.business.dtos.responses.GetUserInfoResponse;
 import com.odeon.odeonDemo.business.dtos.responses.LoggedInResponse;
 import com.odeon.odeonDemo.business.dtos.responses.RefreshedTokenResponse;
+import com.odeon.odeonDemo.entities.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,10 +26,10 @@ public class AuthController {
     private int refreshTokenExpiryDays;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public LoggedInResponse login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
         LoggedInResponse loggedInResponse = authService.login(loginRequest, getIpAddress(request));
         setCookie(refreshTokenKey, loggedInResponse.getRefreshToken(), refreshTokenExpiryDays * 24 * 60 * 60, response);
-        return loggedInResponse.getAccessToken();
+        return loggedInResponse;
     }
 
     @PostMapping("/refresh")

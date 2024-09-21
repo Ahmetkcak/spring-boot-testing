@@ -2,6 +2,7 @@ package com.odeon.odeonDemo.business.concretes;
 
 import com.odeon.odeonDemo.business.abstracts.UserService;
 import com.odeon.odeonDemo.business.dtos.requests.RegisterRequest;
+import com.odeon.odeonDemo.business.dtos.responses.GetUserInfoResponse;
 import com.odeon.odeonDemo.business.messages.AuthMessages;
 import com.odeon.odeonDemo.business.rules.UserBusinessRules;
 import com.odeon.odeonDemo.core.utilities.exceptions.types.BusinessException;
@@ -39,6 +40,14 @@ public class UserManager implements UserService {
     public User findByUserName(String username) {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new BusinessException(AuthMessages.LOGIN_FAILED));
+    }
+
+    @Override
+    public GetUserInfoResponse getUserInfoWithRoles(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessException(AuthMessages.LOGIN_FAILED));
+        GetUserInfoResponse response = modelMapperService.forResponse().map(user, GetUserInfoResponse.class);
+        return response;
     }
 
     @Override
