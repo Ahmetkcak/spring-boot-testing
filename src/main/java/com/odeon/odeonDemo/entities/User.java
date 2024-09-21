@@ -19,6 +19,15 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity<Integer> implements UserDetails {
 
+    public User(String firstName, String lastName, String email, String password, LocalDate birthDate, String city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.birthDate = birthDate;
+        this.city = city;
+    }
+
     @Column(name = "first_name")
     private String firstName;
 
