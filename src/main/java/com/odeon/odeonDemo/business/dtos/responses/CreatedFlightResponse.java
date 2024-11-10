@@ -1,15 +1,18 @@
-package com.odeon.odeonDemo.business.dtos.requests;
+package com.odeon.odeonDemo.business.dtos.responses;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
-public class CreateFlightRequest {
+public class CreatedFlightResponse {
+    private int id;
     private String departureLocation;
     private String arrivalLocation;
     private LocalDateTime departureDate;

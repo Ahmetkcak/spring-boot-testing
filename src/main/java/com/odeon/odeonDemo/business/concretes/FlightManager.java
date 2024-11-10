@@ -2,6 +2,7 @@ package com.odeon.odeonDemo.business.concretes;
 
 import com.odeon.odeonDemo.business.abstracts.FlightService;
 import com.odeon.odeonDemo.business.dtos.requests.CreateFlightRequest;
+import com.odeon.odeonDemo.business.dtos.responses.CreatedFlightResponse;
 import com.odeon.odeonDemo.business.dtos.responses.GetAllFlightResponse;
 import com.odeon.odeonDemo.business.rules.FlightBusinessRules;
 import com.odeon.odeonDemo.core.utilities.mapping.ModelMapperService;
@@ -21,12 +22,12 @@ public class FlightManager implements FlightService {
     private final FlightBusinessRules flightBusinessRules;
 
     @Override
-    public void addFlight(CreateFlightRequest createFlightRequest) {
+    public CreatedFlightResponse addFlight(CreateFlightRequest createFlightRequest) {
 
         flightBusinessRules.validateFlightSchedule(modelMapperService.forRequest().map(createFlightRequest, Flight.class));
 
         Flight flight = modelMapperService.forRequest().map(createFlightRequest, Flight.class);
-        flightRepository.save(flight);
+        return modelMapperService.forResponse().map(flightRepository.save(flight), CreatedFlightResponse.class);
     }
 
     @Override
